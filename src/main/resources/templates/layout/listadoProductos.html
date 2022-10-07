@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Listado Productos</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <section th:fragment="listadoProductos" id="productos">
+            <div class="container">
+                <form class="form-inline" th:action="@{/}">
+                    <div class="form-group mb-2">
+                        <label>Filtar : </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" name="palabraClave" class="form-control" 
+                               id="palabraClave" th:value="${palabraClave}" placeholder="Digite el valor a buscar" required="true"/> 
+                    </div>
+                    <input type="submit" class="btn btn-info mb-2" value="Buscar"/>
+                    &nbsp;&nbsp;
+                    <input type="button" class="btn btn-secondary mb-2" value="Limpiar" 
+                           onclick="limpiarCampos()"/>
+                </form>
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>[[#{producto.titulo-lista}]]</h4>
+                            </div>
+                            <div th:if="${productos != null and !productos.empty}">
+                                <table class="table table-stryped">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th th:text="#{producto.nombre}">Nombre</th>
+                                            <th th:text="#{producto.cantidad}">Cantidad</th>
+                                            <th th:text="#{producto.fecha-ingreso}">Fecha</th>
+                                            <th th:text="#{producto.usuario}">Usuario</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="producto : ${productos}">
+
+                                            <td>[[${producto.nombreProducto}]]</td>
+                                            <td>[[${producto.cantidadProducto}]]</td>
+                                            <td>[[${producto.fechaIngProducto}]]</td>
+                                            <td>[[${producto.usuario.nombreUsuario}]]</td>
+
+                                            <td>
+                                                <a th:href="@{/editar/} + ${producto.idProducto}"
+                                                   class="btn btn-secondary">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.editar}]]
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a th:href="@{/eliminar/} + ${producto.idProducto}"
+                                                   class="btn btn-dark">
+                                                    <i class="fas fa-angle-double-right"></i> [[#{accion.eliminar}]]
+                                                </a>
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center p-2" th:if="${productos==null or productos.empty}">
+                                <span th:text="#{producto.lista-vacia}">Lista Vacía</span>
+                            </div> 
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <script type="text/javascript">
+                function limpiarCampos() {
+                    window.location = '/';
+                }
+            </script>    
+        </section>
+    </body>
+</html>
+

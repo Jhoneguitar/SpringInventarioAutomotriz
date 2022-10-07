@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Editar Producto</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <section th:fragment="editarProducto">
+            <form th:action="@{/editarProducto}" th:object="${producto}"
+                  method="POST" class="was-validated">
+                <input type="hidden" name="idProducto" th:field="*{idProducto}"/>
+                <section th:replace="layout/botonesEditar :: botonesEditar"></section>
+                <div id="details">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>[[#{accion.editar}]]</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="nombreProducto">[[#{producto.nombre}]]</label>
+                                            <input type="text" class="form-control" name="nombreProducto" 
+                                                   required="true" th:field="*{nombreProducto}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cantidadProducto">[[#{producto.cantidad}]]</label>
+                                            <input type="text" class="form-control" name="cantidadProducto" 
+                                                   required="true" th:field="*{cantidadProducto}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fechaIngProducto">[[#{producto.fecha-ingreso}]]</label>
+                                            <input type="date" id="fecha_editar" class="form-control" name="fechaIngProducto"
+                                                   required="true" th:field="*{fechaIngProducto}"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="usuario" th:text="#{producto.usuario-accion}">Usuario</label>
+                                            <select name="usuario" class="form-control" required="true">
+                                                <option th:each="usuario : ${usuarios}"
+                                                        th:value="${usuario.idUsuario}"
+                                                        th:text="${usuario.nombreUsuario}"
+                                                        />
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+            <script>
+                document.getElementById("fecha_editar").max = new Date().toISOString().split("T")[0];
+            </script>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Agregar Producto</title>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <section th:fragment="agregarProducto">
+            <div id="agregarProducto" class="modal fade">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title" th:text="#{accion.agregar}">Agregar Producto</h5>
+                            <button class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/guardar}" th:object="${producto}"
+                              method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="nombreProducto" th:text="#{producto.nombre}">Nombre</label>
+                                    <input type="text" class="form-control" name="nombreProducto" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cantidadProducto" th:text="#{producto.cantidad}">Cantidad</label>
+                                    <input type="text" class="form-control" name="cantidadProducto" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaIngProducto" th:text="#{producto.fecha-ingreso}">Fecha</label>
+                                    <input type="date" id="fecha_prod" class="form-control" name="fechaIngProducto" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="usuario" th:text="#{producto.usuario}">Usuario</label>
+                                    <select name="usuario" class="form-control" required="true">
+                                        <option th:each="usuario : ${usuarios}"
+                                                th:value="${usuario.idUsuario}"
+                                                th:text="${usuario.nombreUsuario}"
+                                        />
+                                    </select>
+                                </div>
+                            </div>   
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit" th:text="#{accion.guardar}">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <script>
+                document.getElementById("fecha_prod").max = new Date().toISOString().split("T")[0];
+            </script>
+        </section>
+    </body>
+</html>
